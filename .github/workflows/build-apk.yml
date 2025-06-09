@@ -1,41 +1,42 @@
-name: Build APK
+name: Build APK with EAS
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build-apk:
+  build:
+    name: EAS Android Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
       - name: Authenticate with Expo
-  env:
-    EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-  run: eas whoami
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas whoami
 
+      - name: Start EAS Build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas build --platform android --profile preview --non-interactive
 
-      - name: Configure EAS
-        run: npx eas-cli build:configure --platform android --non-interactive
-
-      - name: Build APK
-        run: npx eas-cli build --platform android --profile preview --non-interactive
-
-      - name: Upload APK artifact
+      - name: Upload build details
         uses: actions/upload-artifact@v4
         with:
-          name: ChatBD-APK
-          path: dist/*.apk
+          name: eas-build-logs
+          path: ./build
