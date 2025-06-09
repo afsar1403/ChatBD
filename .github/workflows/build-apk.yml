@@ -1,0 +1,49 @@
+name: Build Expo APK and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install Expo CLI
+      run: npm install -g expo-cli
+
+    - name: Login to Expo
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      run: expo login --token $EXPO_TOKEN
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build APK
+      run: expo build:android -t apk --non-interactive
+
+    - name: Download APK
+      run: |
+        mkdir apk
+        expo fetch:android:apk --non-interactive --output apk/app.apk
+
+    - name: Create Release and Upload APK
+      id: release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: apk/app.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Output Release URL
+      run: echo "Release uploaded: ${{ steps.release.outputs.upload_url }}"
