@@ -1,4 +1,4 @@
-name: Build Expo APK and Release
+name: Build Expo APK and Get Download Link
 
 on:
   push:
@@ -11,26 +11,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/upload-artifact@v4
-
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install Expo CLI
-        run: npm install -g expo-cli eas-cli
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
 
       - name: Authenticate with Expo
-        run: eas login --token ${{ secrets.EXPO_TOKEN }}
+        run: eas whoami || eas login --token ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build APK
+      - name: Build Android APK
         run: eas build --platform android --profile preview --non-interactive
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-
-        with:
-          name: ChatBD-APK
-          path: dist/*.apk
+      - name: Show build details
+        run: eas build:list --limit 1
