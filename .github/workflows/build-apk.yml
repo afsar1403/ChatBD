@@ -29,7 +29,8 @@ jobs:
         run: eas build --platform android --profile preview --non-interactive
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: uses: actions/upload-artifact@v4
+
         with:
           name: ChatBD-APK
           path: dist/*.apk
