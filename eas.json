@@ -1,16 +1,15 @@
 {
   "cli": {
-    "version": ">=3.0.0"
+    "version": ">= 0.34.0"
   },
-  "build": {
-    "preview": {
-      "android": {
-        "buildType": "apk"
-      }
-    },
+  "submit": {
     "production": {
       "android": {
-        "buildType": "app-bundle"
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "ascAppId": "your-app-store-connect-app-id"
       }
     }
   }
