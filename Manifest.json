@@ -1,0 +1,16 @@
+{
+  "name": "Al-Quran & Hadith Bangla",
+  "short_name": "QuranApp",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#00796B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2904/2904903.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
