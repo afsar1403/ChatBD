@@ -3,185 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আল-হাদিস ও কুরআন ড্যাশবোর্ড</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00796B">
-    
+    <title>আল-হাদিস ও কুরআন</title>
+    <link rel="manifest" href="./manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Amiri&display=swap" rel="stylesheet">
-    
     <style>
         :root {
-            --bg-color: #f8f9fa;
+            --bg-color: #f4f6f9;
             --card-bg: #ffffff;
-            --text-main: #2d3142;
-            --text-sub: #a0a5b0;
-            --header-gradient: linear-gradient(135deg, #004D40, #0F3A40);
-            --subtitle-color: #b2dfdb;
-            --border-color: rgba(0,0,0,0.02);
+            --text-color: #2c3e50;
+            --primary-color: #00796B;
+            --header-bg: linear-gradient(135deg, #004D40, #00796B);
         }
 
         [data-theme="dark"] {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-sub: #8a8a8a;
-            --header-gradient: linear-gradient(135deg, #1A3038, #0D1F22);
-            --subtitle-color: #80cbc4;
-            --border-color: rgba(255,255,255,0.05);
+            --text-color: #e0e0e0;
+            --primary-color: #14b8a6;
+            --header-bg: linear-gradient(135deg, #111827, #1f2937);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
-            transition: background-color 0.3s, color 0.3s, border 0.3s;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; padding-bottom: 60px; }
+        
+        .header { background: var(--header-bg); color: white; text-align: center; padding: 30px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
+        .header h1 { font-size: 24px; margin-bottom: 5px; }
+        .header p { font-size: 14px; opacity: 0.8; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-        }
+        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+        
+        /* Dashboard Grid */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px; }
+        .card { background: var(--card-bg); padding: 20px 15px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s; }
+        .card:active { transform: scale(0.95); }
+        .card-icon { font-size: 35px; margin-bottom: 10px; display: block; }
+        .card h3 { font-size: 16px; font-weight: 600; }
 
-        .hero-header {
-            background: var(--header-gradient);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom-left-radius: 32px;
-            border-bottom-right-radius: 32px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-        }
+        /* Surah List View */
+        .view-section { display: none; margin-top: 10px; }
+        .back-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; margin-bottom: 15px; }
+        
+        .list-item { background: var(--card-bg); padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; }
+        .surah-info { display: flex; align-items: center; gap: 15px; }
+        .surah-num { background: var(--primary-color); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; font-weight: bold; }
+        .arabic-text { font-family: 'Amiri', serif; font-size: 20px; color: var(--primary-color); }
 
-        .bismillah-text {
-            font-family: 'Amiri', serif;
-            font-size: 22px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 10px;
-        }
-
-        .app-title { font-size: 26px; font-weight: 700; }
-        .app-subtitle { font-size: 14px; color: var(--subtitle-color); margin-top: 5px; }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            padding: 24px;
-        }
-
-        .menu-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 24px 16px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
-        }
-
-        .menu-card:active { transform: scale(0.96); opacity: 0.8; }
-
-        .icon-badge {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 14px;
-        }
-
-        .quran-color { background: #E0F2F1; color: #00796B; }
-        .hadith-color { background: #EBF3F5; color: #0B4F6C; }
-        .books-color { background: #FFF3E0; color: #E65100; }
-        .bookmark-color { background: #FCE4EC; color: #C2185B; }
-
-        [data-theme="dark"] .quran-color { background: #004D40; color: #80cbc4; }
-        [data-theme="dark"] .hadith-color { background: #0D2C3A; color: #90caf9; }
-        [data-theme="dark"] .books-color { background: #4E2500; color: #ffcc80; }
-        [data-theme="dark"] .bookmark-color { background: #4D0F28; color: #f48fb1; }
-
-        .card-title { font-size: 16px; font-weight: 700; }
-        .footer-note { text-align: center; font-size: 12px; color: var(--text-sub); margin-top: 20px; }
-
-        .theme-toggle-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 55px;
-            height: 55px;
-            background-color: #00796B;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        [data-theme="dark"] .theme-toggle-btn { background-color: #fff; color: #121212; }
+        /* Floating Theme Button */
+        .theme-toggle { position: fixed; bottom: 20px; right: 20px; background: #00796B; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
-    <div class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()">🌙</div>
-
-    <div class="hero-header">
-        <div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَٰনِ الرَّحِيمِ</div>
-        <div class="app-title">আল-হাদিস ও কুরআন</div>
-        <div class="app-subtitle">আধুনিক ইসলামিক লাইব্রেরি সংস্করণ</div>
+    <div class="header">
+        <h1 id="header-title">আল-হাদিস ও কুরআন</h1>
+        <p id="header-subtitle">আধুনিক ইসলামিক লাইব্রেরি সংস্করণ</p>
     </div>
 
-    <div class="menu-grid">
-        <div class="menu-card">
-            <div class="icon-badge quran-color">📖</div>
-            <div class="card-title">কুরআন ও তাফসীর</div>
+    <div class="container">
+        <!-- Main Dashboard -->
+        <div id="dashboard-view">
+            <div class="grid">
+                <div class="card" onclick="openQuran()">
+                    <span class="card-icon">📖</span>
+                    <h3>কুরআন ও তাফসীর</h3>
+                </div>
+                <div class="card" onclick="alert('হাদিস সেকশনটি পরবর্তী ধাপে যুক্ত করা হবে।')">
+                    <span class="card-icon">🕌</span>
+                    <h3>হাদিসসমূহ</h3>
+                </div>
+                <div class="card" onclick="alert('ইসলামিক গ্রন্থ সেকশনটি শীঘ্রই আসছে।')">
+                    <span class="card-icon">📚</span>
+                    <h3>ইসলামিক গ্রন্থ</h3>
+                </div>
+                <div class="card" onclick="alert('বুকমার্কস সেকশনটি শীঘ্রই আসছে।')">
+                    <span class="card-icon">🔖</span>
+                    <h3>বুকমার্কস</h3>
+                </div>
+            </div>
         </div>
-        <div class="menu-card">
-            <div class="icon-badge hadith-color">🕌</div>
-            <div class="card-title">হাদিসসমূহ</div>
-        </div>
-        <div class="menu-card">
-            <div class="icon-badge books-color">📚</div>
-            <div class="card-title">ইসলামিক গ্রন্থ</div>
-        </div>
-        <div class="menu-card">
-            <div class="icon-badge bookmark-color">🔖</div>
-            <div class="card-title">বুকমার্কস</div>
+
+        <!-- Quran/Surah List View -->
+        <div id="quran-view" class="view-section">
+            <button class="back-btn" onclick="showDashboard()">← ফিরে যান</button>
+            <div id="surah-list">📍 সূরা তালিকা লোড হচ্ছে...</div>
         </div>
     </div>
 
-    <div class="footer-note">
-        সংস্করণ ২.০ • সম্পূর্ণ অফলাইন ড্যাশবোর্ড সুবিধা সহ
-    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
     <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+
+        // Theme Toggle Function
         function toggleTheme() {
-            const body = document.documentElement;
-            const btn = document.getElementById('theme-btn');
+            const body = document.body;
+            const btn = document.querySelector('.theme-toggle');
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
-                btn.innerText = '🌙';
+                btn.textContent = '🌙';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️';
+                btn.textContent = '☀️';
             }
         }
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(() => console.log("Service Worker Registered Successfully."));
+        // Navigation Functions
+        function openQuran() {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('quran-view').style.display = 'block';
+            document.getElementById('header-title').textContent = 'পবিত্র কুরআন';
+            document.getElementById('header-subtitle').textContent = '১১৪ টি সূরার তালিকা';
+            loadSurahList();
+        }
+
+        function showDashboard() {
+            document.getElementById('quran-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            document.getElementById('header-title').textContent = 'আল-হাদিস ও কুরআন';
+            document.getElementById('header-subtitle').textContent = 'আধুনিক ইসলামিক লাইব্রেরি সংস্করণ';
+        }
+
+        // Fetch Surah List from API
+        async function loadSurahList() {
+            const listContainer = document.getElementById('surah-list');
+            try {
+                // Fetching Surah names in Bengali translation context
+                const response = await fetch('https://api.quran.com/api/v4/chapters?language=bn');
+                const data = await response.json();
+                
+                listContainer.innerHTML = ''; // Clear loading text
+                
+                data.chapters.forEach(surah => {
+                    const item = document.createElement('div');
+                    item.className = 'list-item';
+                    item.onclick = () => alert(`সূরা ${surah.name_simple} এর আয়াতসমূহ পরবর্তী আপডেটে লোড হবে।`);
+                    
+                    item.innerHTML = `
+                        <div class="surah-info">
+                            <div class="surah-num">${surah.id}</div>
+                            <div>
+                                <strong>${surah.name_simple}</strong>
+                                <p style="font-size: 12px; opacity: 0.7;">আয়াত সংখ্যা: ${surah.verses_count}</p>
+                            </div>
+                        </div>
+                        <div class="arabic-text">${surah.name_arabic}</div>
+                    `;
+                    listContainer.appendChild(item);
+                });
+            } catch (error) {
+                listContainer.innerHTML = '❌ সূরা তালিকা লোড করতে সমস্যা হয়েছে। ইন্টারনেট কানেকশন চেক করুন।';
+            }
         }
     </script>
-
 </body>
 </html>
