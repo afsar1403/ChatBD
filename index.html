@@ -50,7 +50,7 @@
         
         /* Ayat Detail Styling */
         .bismillah { font-family: 'Amiri', serif; font-size: 28px; text-align: center; color: var(--bismillah-color); margin: 20px 0; }
-        .ayah-card { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); content-visibility: auto; contain-intrinsic-size: 150px; }
+        .ayah-card { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); content-visibility: auto; contain-intrinsic-size: 120px; }
         .ayah-arabic { font-family: 'Amiri', serif; font-size: 26px; text-align: right; direction: rtl; line-height: 1.8; color: var(--text-color); margin-bottom: 12px; }
         .ayah-bangla { font-size: 15px; line-height: 1.6; color: var(--text-color); opacity: 0.9; text-align: left; }
         .ayah-number { font-size: 12px; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; display: inline-block; background: rgba(0, 121, 107, 0.1); padding: 2px 8px; border-radius: 10px; }
@@ -101,7 +101,7 @@
     <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
     <script>
-        // High-density local static metadata map for instant loading
+        // High-density static metadata map
         const surahMetaData = [
             [1,"Al-Fatihah","الفاتحة",7,"makkah","আল-ফাতিহা"], [2,"Al-Baqarah","البقرة",286,"madinah","আল-বাকারাহ"],
             [3,"Ali 'Imran","آل عمران",200,"madinah","আলি 'ইমরান"], [4,"An-Nisa","النساء",176,"madinah","আন-নিসা"],
@@ -111,17 +111,17 @@
             [11,"Hud","هود",123,"makkah","হূদ"], [12,"Yusuf","يوسف",111,"makkah","ইউসুফ"],
             [13,"Ar-Ra'd","الرعد",43,"madinah","আর-রাদ"], [14,"Ibrahim","إبراهيم",52,"makkah","ইব্রাহীম"],
             [15,"Al-Hijr","الحجر",99,"makkah","আল-হিজর"], [16,"An-Nahl","النحل",128,"makkah","আন-নাহল"],
-            [17,"Al-Isra","الإسراء",111,"makkah","আল-ইসরা"], [18,"Al-Kahf","الكهফ",110,"makkah","আল-কাহফ"],
+            [17,"Al-Isra","الإسراء",111,"makkah","আল-ইসরা"], [18,"Al-Kahf","الكهف",110,"makkah","আল-কাহফ"],
             [19,"Maryam","مريم",98,"makkah","মারইয়াম"], [20,"Ta-Ha","طه",135,"makkah","ত্বা-হা"],
             [21,"Al-Anbiya","الأنبياء",112,"makkah","আল-আম্বিয়া"], [22,"Al-Hajj","الحج",78,"madinah","আল-হাজ্জ"],
             [23,"Al-Mu'minun","المؤمنون",118,"makkah","আল-মু'মিনূন"], [24,"An-Nur","النور",64,"madinah","আন-নূর"],
             [25,"Al-Furqan","الفرقان",77,"makkah","আল-ফরকান"], [26,"Ash-Shu'ara","الشعراء",227,"makkah","আশ-শুআরা"],
             [27,"An-Naml","النمل",93,"makkah","আন-নামল"], [28,"Al-Qasas","القصص",88,"makkah","আল-কাসাস"],
-            [29,"Al-Ankabut","العنكبوت",69,"makkah","আল-আনকাবূত"], [30,"Ar-Rum","الروم",60,"makkah","আর-রূম"],
+            [29,"Al-Ankabut","العনكبوت",69,"makkah","আল-আনকাবূত"], [30,"Ar-Rum","الروم",60,"makkah","আর-রূম"],
             [31,"Luqman","لقمان",34,"makkah","লুকমান"], [32,"As-Sajdah","السجدة",30,"makkah","আস-সাজদাহ"],
             [33,"Al-Ahzab","الأحزاب",73,"madinah","আল-আহ্যাব"], [34,"Saba","سبإ",54,"makkah","সাবা"],
             [35,"Fatir","فاطر",45,"makkah","ফাতির"], [36,"Ya-Sin","يس",83,"makkah","ইয়াসীন"],
-            [37,"As-Saffat","الصافات",182,"makkah","আস-সাফফাত"], [38,"Sad","ص",88,"makkah","সোয়াদ"],
+            [37,"As-Saffat","الصافات",182,"makkah","আস-সাফফাত"], [38,"Sad","ص",88,"makkah","সোواد"],
             [39,"Az-Zumar","الزمر",75,"makkah","আজ-জুমার"], [40,"Ghafir","غافر",85,"makkah","গাফির"],
             [41,"Fussilat","فصلت",54,"makkah","ফুসসিলাত"], [42,"Ash-Shura","الشورى",53,"makkah","আশ-শূরা"],
             [43,"Az-Zukhruf","الزخرف",89,"makkah","আজ-জুখরূফ"], [44,"Ad-Dukhan","الدخان",59,"makkah","আদ-দুখান"],
@@ -139,7 +139,7 @@
             [67,"Al-Mulk","الملك",30,"makkah","আল-মুলক"], [68,"Al-Qalam","القلم",52,"makkah","আল-ক্বলম"],
             [69,"Al-Haqqah","الحاقة",52,"makkah","আল-হাক্কাহ"], [70,"Al-Ma'arij","المعارج",44,"makkah","আল-মাআরিজ"],
             [71,"Nuh","نوح",28,"makkah","নূহ"], [72,"Al-Jinn","الجن",28,"makkah","আল-জিন্ন"],
-            [73,"Al-Muzzammil","المزمل",20,"makkah","আল-মুযযামমিল"], [74,"Al-Muddaththir","المدثر",56,"makkah","আল-মুদ্দাসসির"],
+            [73,"Al-Muzzammil","المزمل",20,"makkah","আল-মুযযামমেল"], [74,"Al-Muddaththir","المدثر",56,"makkah","আল-মুদ্দাসসির"],
             [75,"Al-Qiyamah","القيامة",40,"makkah","আল-কিয়ামাহ"], [76,"Al-Insan","الإنسان",31,"madinah","আল-ইনসান"],
             [77,"Al-Mursalat","المرسلات",50,"makkah","আল-মুরসালাত"], [78,"An-Naba","النبأ",40,"makkah","আন-নাবা"],
             [79,"An-Nazi'at","النازعات",46,"makkah","আন-নাযিআত"], [80,"'Abasa","عبس",42,"makkah","আবাসা"],
@@ -150,7 +150,7 @@
             [89,"Al-Fajr","الفجر",30,"makkah","আল-ফজর"], [90,"Al-Balad","البلد",20,"makkah","আল-বালাদ"],
             [91,"Ash-Shams","الشمس",15,"makkah","আশ-শামস"], [92,"Al-Layl","الليل",21,"makkah","আল-লাইল"],
             [93,"Ad-Duha","الضحى",11,"makkah","আদ-দুহা"], [94,"Ash-Sharh","الشرح",8,"makkah","আশ-শারহ"],
-            [95,"At-Tin","التين",8,"makkah","আত্ব-তীন"], [96,"Al-'Alaq","العلق",19,"makkah","আল-আলাক্ব"],
+            [95,"At-Tin","التين",8,"makkahных","আত্ব-তীন"], [96,"Al-'Alaq","العلق",19,"makkah","আল-আলাক্ব"],
             [97,"Al-Qadr","القدر",5,"makkah","আল-ক্বদর"], [98,"Al-Bayyinah","البينة",8,"madinah","আল-বাইয়্যিনাহ"],
             [99,"Al-Zalzalah","الزلزلة",8,"madinah","আয-যালযালাহ"], [100,"Al-'Adiyat","العاديات",11,"makkah","আল-আদিয়াত"],
             [101,"Al-Qari'ah","القارعة",11,"makkah","আল-ক্বারিয়াহ"], [102,"At-Takathur","التكاثر",8,"makkah","আত্ব-তাকাসুর"],
@@ -162,7 +162,14 @@
             [113,"Al-Falaq","الفلق",5,"makkah","আল-ফালাক্ব"], [114,"An-Nas","الناس",6,"makkah","আন-নাস"]
         ];
 
-        // Optimized structural generation for the Surah List view (Generated once upon initialization)
+        // Deep Text Database for early Surahs to prevent duplicate text looping lines
+        const quranTextDatabase = {
+            1: {
+                ar: ["بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "الرَّحْمَٰنِ الرَّحِيمِ", "مَالِكِ يَوْمِ الدِّينِ", "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ"],
+                bn: ["পরম করুণাময়, অসীম দয়ালু আল্লাহর নামে।", "সব প্রশংসা জগৎসমূহে প্রতিপালক আল্লাহর জন্য।", "তিনি পরম করুণাময়, অতি দয়ালু।", "তিনি বিচার দিবসের মালিক।", "আমরা কেবল তোমারই ইবাদত করি এবং কেবল তোমারই সাহায্য চাই।", "আমাদের সরল পথ দেখাও।", "তাদের পথ, যাদের তুমি অনুগ্রহ করেছ; তাদের পথ নয় যারা ক্রোধনিপতিত ও পথভ্রষ্ট।"]
+            }
+        };
+
         function buildSurahListDOM() {
             const listContainer = document.getElementById('surah-list');
             const fragment = document.createDocumentFragment();
@@ -178,8 +185,8 @@
                     <div class="surah-info">
                         <div class="surah-num">${id}</div>
                         <div>
-                            <strong>${nameBangla} (${nameSimple})</strong>
-                            <p style="font-size: 12px; opacity: 0.7;">আয়াত: ${versesCount} | অবতীর্ণ: ${type}</p>
+                            <strong>${nameBangla}</strong>
+                            <p style="font-size: 12px; opacity: 0.7;">আয়াত: ${versesCount} | ${type}</p>
                         </div>
                     </div>
                     <div class="arabic-text">${nameArabic}</div>
@@ -189,7 +196,6 @@
             listContainer.appendChild(fragment);
         }
 
-        // Initialize early to prevent visual layout jumps
         buildSurahListDOM();
 
         if ('serviceWorker' in navigator) {
@@ -210,7 +216,6 @@
 
         function openQuran() {
             document.getElementById('dashboard-view').style.display = 'none';
-            document.getElementById('surah-detail-view').style.display = 'none';
             document.getElementById('quran-view').style.display = 'block';
             document.getElementById('header-title').textContent = 'পবিত্র কুরআন';
             document.getElementById('header-subtitle').textContent = '১১৪ টি সূরার তালিকা';
@@ -218,7 +223,6 @@
 
         function showDashboard() {
             document.getElementById('quran-view').style.display = 'none';
-            document.getElementById('surah-detail-view').style.display = 'none';
             document.getElementById('dashboard-view').style.display = 'block';
             document.getElementById('header-title').textContent = 'আল-হাদিস ও কুরআন';
             document.getElementById('header-subtitle').textContent = 'আধুনিক ইসলামিক লাইব্রেরি সংস্করণ';
@@ -227,11 +231,9 @@
         function backToSurahList() {
             document.getElementById('surah-detail-view').style.display = 'none';
             document.getElementById('quran-view').style.display = 'block';
-            document.getElementById('header-title').textContent = 'পবিত্র কুরআন';
-            document.getElementById('header-subtitle').textContent = '১১৪ টি সূরার তালিকা';
         }
 
-        // ONE-TAP SIMULATOR ENGINE (Generates precise structures instantly using algorithmically computed local mocks)
+        // ONE-TAP ULTRALIGHT RENDERING ENGINE
         function openSurahDetail(surahId, surahNameBangla, surahNameArabic, versesCount) {
             document.getElementById('quran-view').style.display = 'none';
             document.getElementById('surah-detail-view').style.display = 'block';
@@ -240,47 +242,44 @@
             document.getElementById('header-subtitle').textContent = surahNameArabic;
             
             const detailContainer = document.getElementById('surah-detail-content');
-            
-            // Generate content using DocumentFragment instead of slow multi-innerHtml injections
             const fragment = document.createDocumentFragment();
             
             if (surahId !== 9) {
                 const bismillahDiv = document.createElement('div');
                 bismillahDiv.className = 'bismillah';
-                bismillahDiv.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰনِ الرَّحِيمِ';
+                bismillahDiv.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
                 fragment.appendChild(bismillahDiv);
             }
             
-            // To guarantee offline execution with zero network latency, verses are rendered on-demand.
-            // Replace this localized dynamic rendering block with your internal database mapping if necessary.
+            const storedSurah = quranTextDatabase[surahId];
+
             for (let i = 1; i <= versesCount; i++) {
                 const ayahCard = document.createElement('div');
                 ayahCard.className = 'ayah-card';
                 
-                // Optimized localized fallback variables
-                let sampleArabic = `الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (${i})`;
-                let sampleBangla = `সব প্রশংসা জগৎসমূহের প্রতিপালক আল্লাহর জন্য। (আয়াত: ${i})`;
-                
-                // Actual precise tracking for Surah Al-Fatihah as a live reference model
-                if(surahId === 1) {
-                    const fatihaAr = ["", "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "الرَّحْمَٰنِ الرَّحِيمِ", "مَالِكِ يَوْمِ الدِّينِ", "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ"];
-                    const fatihaBn = ["", "পরম করুণাময়, অসীম দয়ালু আল্লাহর নামে।", "সব প্রশংসা জগৎসমূহের প্রতিপালক আল্লাহর জন্য।", "তিনি পরম করুণাময়, অতি দয়ালু।", "তিনি বিচার দিবসের মালিক।", "আমরা কেবল তোমারই ইবাদত করি এবং কেবল তোমারই সাহায্য চাই।", "আমাদের সরল পথ দেখাও।", "তাদের পথ, যাদের তুমি অনুগ্রহ করেছ; তাদের পথ নয় যারা ক্রোধনিপতিত ও পথভ্রষ্ট।"];
-                    sampleArabic = fatihaAr[i] || sampleArabic;
-                    sampleBangla = fatihaBn[i] || sampleBangla;
+                let arabicText = "";
+                let banglaText = "";
+
+                if (storedSurah) {
+                    // Pull verified array lines natively
+                    arabicText = storedSurah.ar[i - 1] || "";
+                    banglaText = storedSurah.bn[i - 1] || "";
+                } else {
+                    // Safe structural dynamic indicators to avoid hardcoded duplication loops across lines
+                    arabicText = `[সূরা ${surahNameArabic} - আয়াত ${i} এর আরবি টেক্সট অফলাইন সংস্করণে যুক্ত করুন]`;
+                    banglaText = `সূরা ${surahNameBangla}, আয়াত নম্বর ${i} এর বাংলা অনুবাদ।`;
                 }
 
                 ayahCard.innerHTML = `
                     <span class="ayah-number">আয়াত: ${i}</span>
-                    <div class="ayah-arabic">${sampleArabic}</div>
-                    <div class="ayah-bangla">${sampleBangla}</div>
+                    <div class="ayah-arabic">${arabicText}</div>
+                    <div class="ayah-bangla">${banglaText}</div>
                 `;
                 fragment.appendChild(ayahCard);
             }
             
-            // Single layout repaint event
             detailContainer.innerHTML = '';
             detailContainer.appendChild(fragment);
-            
             window.scrollTo({ top: 0 });
         }
     </script>
