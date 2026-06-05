@@ -1,41 +1,62 @@
-const CACHE_NAME = 'quran-hadith-cache-v1';
+const CACHE_NAME = 'quran-hadith-cache-v2';
+
 const ASSETS = [
   './',
   './index.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Amiri&display=swap'
+  './manifest.json'
 ];
 
-// Install Service Worker and cache the core application files
+// INSTALL
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Caching app assets...');
-      return cache.addAll(ASSETS);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      console.log('Caching app shell...');
+
+      // SAFE caching (one by one instead of addAll)
+      for (const asset of ASSETS) {
+        try {
+          await cache.add(asset);
+        } catch (e) {
+          console.log('Skip caching:', asset);
+        }
+      }
     })
   );
+
+  self.skipWaiting();
 });
 
-// Activate Service Worker and clean up old caches if any
+// ACTIVATE
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
+    caches.keys().then((keys) =>
+      Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
             return caches.delete(key);
           }
         })
-      );
-    })
+      )
+    )
   );
+
+  self.clients.claim();
 });
 
-// Fetch assets from cache first, then network if offline
+// FETCH (Cache first, fallback network)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+    caches.match(event.request).then((cached) => {
+      if (cached) return cached;
+
+      return fetch(event.request)
+        .then((res) => {
+          // optional dynamic cache
+          return res;
+        })
+        .catch(() => {
+          return caches.match('./index.html');
+        });
     })
   );
 });
