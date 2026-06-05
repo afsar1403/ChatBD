@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quran-hadith-cache-v2';
+const CACHE_NAME = 'quran-hadith-cache-v3';
 
 const ASSETS = [
   './',
@@ -6,27 +6,24 @@ const ASSETS = [
   './manifest.json'
 ];
 
-// INSTALL
+// INSTALL (Safe procedural extraction strategy)
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('Caching app shell...');
-
-      // SAFE caching (one by one instead of addAll)
+      console.log('Caching modern app core files safely...');
       for (const asset of ASSETS) {
         try {
           await cache.add(asset);
         } catch (e) {
-          console.log('Skip caching:', asset);
+          console.log('Skipped optional core asset route:', asset);
         }
       }
     })
   );
-
   self.skipWaiting();
 });
 
-// ACTIVATE
+// ACTIVATE (Wipes old historical application versions instantly)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -39,24 +36,31 @@ self.addEventListener('activate', (event) => {
       )
     )
   );
-
   self.clients.claim();
 });
 
-// FETCH (Cache first, fallback network)
+// FETCH INTERCEPTOR (Stale-While-Revalidate Strategy for Instant loads + background updates)
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
+  // Ignore external tracking scripts/CDNs to prevent caching bloat
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
 
-      return fetch(event.request)
-        .then((res) => {
-          // optional dynamic cache
-          return res;
-        })
-        .catch(() => {
-          return caches.match('./index.html');
-        });
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      // Return cached item immediately for lightning fast loads
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const cacheCopy = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, cacheCopy));
+        }
+        return networkResponse;
+      }).catch(() => {
+        // Safe cross-route recovery layer
+        return caches.match('./index.html');
+      });
+
+      return cachedResponse || fetchPromise;
     })
   );
 });
