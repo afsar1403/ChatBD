@@ -2,8 +2,7 @@
 <html lang="bn">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
-
+    <script>eruda.init();</script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +16,7 @@
             --text-color: #2c3e50;
             --primary-color: #00796B;
             --header-bg: linear-gradient(135deg, #004D40, #00796B);
+            --bismillah-color: #004D40;
         }
         [data-theme="dark"] {
             --bg-color: #121212;
@@ -24,6 +24,7 @@
             --text-color: #e0e0e0;
             --primary-color: #14b8a6;
             --header-bg: linear-gradient(135deg, #111827, #1f2937);
+            --bismillah-color: #14b8a6;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Hind Siliguri', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; padding-bottom: 60px; }
@@ -36,13 +37,25 @@
         .card:active { transform: scale(0.95); }
         .card-icon { font-size: 35px; margin-bottom: 10px; display: block; }
         .card h3 { font-size: 16px; font-weight: 600; }
+        
         .view-section { display: none; margin-top: 10px; }
         .back-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; margin-bottom: 15px; }
-        .list-item { background: var(--card-bg); padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        /* Surah List Styling */
+        .list-item { background: var(--card-bg); padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: background 0.2s; }
+        .list-item:hover { background: rgba(0, 121, 107, 0.05); }
         .surah-info { display: flex; align-items: center; gap: 15px; }
         .surah-num { background: var(--primary-color); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; font-weight: bold; }
         .arabic-text { font-family: 'Amiri', serif; font-size: 20px; color: var(--primary-color); }
-        .theme-toggle { position: fixed; bottom: 20px; right: 20px; background: #00796B; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
+        
+        /* Ayat Detail Styling */
+        .bismillah { font-family: 'Amiri', serif; font-size: 28px; text-align: center; color: var(--bismillah-color); margin: 20px 0; }
+        .ayah-card { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .ayah-arabic { font-family: 'Amiri', serif; font-size: 26px; text-align: right; direction: rtl; line-height: 1.8; color: var(--text-color); margin-bottom: 12px; }
+        .ayah-bangla { font-size: 15px; line-height: 1.6; color: var(--text-color); opacity: 0.9; text-align: left; }
+        .ayah-number { font-size: 12px; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; display: inline-block; background: rgba(0, 121, 107, 0.1); padding: 2px 8px; border-radius: 10px; }
+        
+        .theme-toggle { position: fixed; bottom: 20px; right: 20px; background: #00796B; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     </style>
 </head>
 <body>
@@ -53,7 +66,6 @@
     </div>
 
     <div class="container">
-        <!-- Dashboard View -->
         <div id="dashboard-view">
             <div class="grid">
                 <div class="card" onclick="openQuran()">
@@ -75,10 +87,14 @@
             </div>
         </div>
 
-        <!-- Quran View -->
         <div id="quran-view" class="view-section">
-            <button class="back-btn" onclick="showDashboard()">← ফিরে যান</button>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরুন</button>
             <div id="surah-list">⏳ সূরা তালিকা লোড হচ্ছে, দয়া করে অপেক্ষা করুন...</div>
+        </div>
+
+        <div id="surah-detail-view" class="view-section">
+            <button class="back-btn" onclick="backToSurahList()">← সূরা তালিকায় ফিরুন</button>
+            <div id="surah-detail-content">⏳ আয়াত লোড হচ্ছে...</div>
         </div>
     </div>
 
@@ -102,8 +118,8 @@
         }
 
         function openQuran() {
-            // স্ক্রিন পরিবর্তন নিশ্চিত করা
             document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('surah-detail-view').style.display = 'none';
             document.getElementById('quran-view').style.display = 'block';
             document.getElementById('header-title').textContent = 'পবিত্র কুরআন';
             document.getElementById('header-subtitle').textContent = '১১৪ টি সূরার তালিকা';
@@ -112,17 +128,28 @@
 
         function showDashboard() {
             document.getElementById('quran-view').style.display = 'none';
+            document.getElementById('surah-detail-view').style.display = 'none';
             document.getElementById('dashboard-view').style.display = 'block';
             document.getElementById('header-title').textContent = 'আল-হাদিস ও কুরআন';
             document.getElementById('header-subtitle').textContent = 'আধুনিক ইসলামিক লাইব্রেরি সংস্করণ';
         }
 
+        function backToSurahList() {
+            document.getElementById('surah-detail-view').style.display = 'none';
+            document.getElementById('quran-view').style.display = 'block';
+            document.getElementById('header-title').textContent = 'পবিত্র কুরআন';
+            document.getElementById('header-subtitle').textContent = '১১৪ টি সূরার তালিকা';
+        }
+
         async function loadSurahList() {
             const listContainer = document.getElementById('surah-list');
+            if (listContainer.innerHTML !== '' && !listContainer.innerHTML.includes('লোডিং') && !listContainer.innerHTML.includes('এপিআই')) {
+                return; // যদি অলরেডি ডাটা লোড থাকে তবে পুনরায় এপিআই কল করবে না
+            }
+            
             listContainer.innerHTML = '⏳ এপিআই থেকে সূরা লোড করা হচ্ছে...';
             
             try {
-                // ব্যাকআপ এপিআই সোর্স ব্যবহার করা হয়েছে লোড নিশ্চিত করতে
                 const response = await fetch('https://api.quran.com/api/v4/chapters');
                 if (!response.ok) throw new Error('Network response error');
                 
@@ -132,6 +159,7 @@
                 data.chapters.forEach(surah => {
                     const item = document.createElement('div');
                     item.className = 'list-item';
+                    item.onclick = () => openSurahDetail(surah.id, surah.name_simple, surah.name_arabic);
                     item.innerHTML = `
                         <div class="surah-info">
                             <div class="surah-num">${surah.id}</div>
@@ -146,7 +174,74 @@
                 });
             } catch (error) {
                 console.error(error);
-                listContainer.innerHTML = '❌ সূরা তালিকা লোড করা যায়নি। অনুগ্রহ করে আপনার ইন্টারনেট কানেকশন চেক করুন অথবা কিছুক্ষণ পর চেষ্টা করুন।';
+                listContainer.innerHTML = '❌ সূরা তালিকা লোড করা যায়নি। ইন্টারনেট কানেকশন চেক করুন।';
+            }
+        }
+
+        async function openSurahDetail(surahId, surahNameBangla, surahNameArabic) {
+            // স্ক্রিন পরিবর্তন
+            document.getElementById('quran-view').style.display = 'none';
+            document.getElementById('surah-detail-view').style.display = 'block';
+            
+            // হেডার পরিবর্তন
+            document.getElementById('header-title').textContent = surahNameBangla;
+            document.getElementById('header-subtitle').textContent = surahNameArabic;
+            
+            const detailContainer = document.getElementById('surah-detail-content');
+            detailContainer.innerHTML = '⏳ সূরার আয়াত ও বাংলা অনুবাদ লোড হচ্ছে, অপেক্ষা করুন...';
+            
+            try {
+                // ১. আরবি আয়াতের ডাটা আনা (উসমানী ফন্ট)
+                const arabicResponse = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surahId}`);
+                // ২. বাংলা অনুবাদের ডাটা আনা (অনুবাদক আইডি ১৬৩ = বায়ান ফাউন্ডেশন)
+                const banglaResponse = await fetch(`https://api.quran.com/api/v4/quran/translations/163?chapter_number=${surahId}`);
+                
+                if (!arabicResponse.ok || !banglaResponse.ok) throw new Error('Failed to fetch verses');
+                
+                const arabicData = await arabicResponse.json();
+                const banglaData = await banglaResponse.json();
+                
+                detailContainer.innerHTML = '';
+                
+                // সূরা তওবা (Surah No 9) ছাড়া সব সূরার শুরুতে বিসমিল্লাহ প্রদর্শন করবে
+                if (surahId !== 9) {
+                    const bismillahDiv = document.createElement('div');
+                    bismillahDiv.className = 'bismillah';
+                    bismillahDiv.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+                    detailContainer.appendChild(bismillahDiv);
+                }
+                
+                // আয়াত ও অনুবাদ লুপের মাধ্যমে ম্যাপ করা
+                const verses = arabicData.verses;
+                const translations = banglaData.translations;
+                
+                for (let i = 0; i < verses.length; i++) {
+                    let arabicText = verses[i].text_uthmani;
+                    
+                    // প্রথম আয়াতের শুরুতে যদি বিসমিল্লাহ যুক্ত থাকে (ফাতিহা ছাড়া অন্য সূরাতে), তবে তা দেখতে সুন্দর করার জন্য ট্রিম করা যেতে পারে
+                    // তবে এপিআই এর উসমানী টেক্সট সাধারণত স্ট্যান্ডার্ডই থাকে।
+                    if (surahId !== 1 && surahId !== 9 && i === 0) {
+                        // কিছু এপিআই রেসপন্সে প্রথম আয়াতে বিসমিল্লাহ টেক্সট বিল্ট-ইন থাকে, তা সরানোর জন্য এই কোড (ঐচ্ছিক)
+                        arabicText = arabicText.replace('بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ', '').trim();
+                        arabicText = arabicText.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ', '').trim();
+                    }
+
+                    const ayahCard = document.createElement('div');
+                    ayahCard.className = 'ayah-card';
+                    ayahCard.innerHTML = `
+                        <span class="ayah-number">আয়াত: ${i + 1}</span>
+                        <div class="ayah-arabic">${arabicText}</div>
+                        <div class="ayah-bangla">${translations[i].text}</div>
+                    `;
+                    detailContainer.appendChild(ayahCard);
+                }
+                
+                // পড়া শুরু করার পর স্ক্রিন একদম উপরে স্ক্রোল করা
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error(error);
+                detailContainer.innerHTML = '❌ আয়াত এবং অনুবাদ লোড করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।';
             }
         }
     </script>
